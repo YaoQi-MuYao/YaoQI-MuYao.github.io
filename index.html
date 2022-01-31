@@ -128,39 +128,43 @@
     
         
         
-            <article class="kratos-hentry kratos-entry-border-new clearfix">
-                <div class="kratos-status">
+            <article class="kratos-hentry clearfix">
+                <div class="kratos-entry-border-new clearfix">
                     
-                        <i class="fa fa-refresh"></i>
-                    
-                    <div class="kratos-status-inner">
-                        <div class="kratos-status-content">
+                    <div class="kratos-entry-thumb-new">
+                        <a href="/2022/01/31/%E5%9F%BA%E4%BA%8ESocket%E4%B8%8EProxy%E4%BB%A3%E7%90%86IP-Http%E8%AF%B7%E6%B1%82/">
                             
-                                <h1 id="基于Socket与Proxy代理IP-Http请求"><a href="#基于Socket与Proxy代理IP-Http请求" class="headerlink" title="基于Socket与Proxy代理IP Http请求"></a>基于Socket与Proxy代理IP Http请求</h1><h2 id="1、ip池"><a href="#1、ip池" class="headerlink" title="1、ip池"></a>1、ip池</h2><p>首先需要弄个ip池用来代理ip使用(最稳定的方式就是花钱)，一般的代理ip网站都会提供获取ip的接口，</p>
-<p>例</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String s = HttpUtil.get(proxyUrl);</span><br><span class="line">JSONObject proxyObj = JSONObject.parseObject(s);</span><br><span class="line">JSONArray array = proxyObj.getJSONArray(<span class="string">&quot;data&quot;</span>);</span><br><span class="line">String ip = <span class="string">&quot;&quot;</span>;</span><br><span class="line">Integer port = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.size(); i++) &#123;</span><br><span class="line">	JSONObject object = array.getJSONObject(i);</span><br><span class="line">	ip = object.getString(<span class="string">&quot;ip&quot;</span>);</span><br><span class="line">	port = object.getInteger(<span class="string">&quot;port&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述为小象代理的接口调用</p>
-<h2 id="2、代码实现ip代理"><a href="#2、代码实现ip代理" class="headerlink" title="2、代码实现ip代理"></a>2、代码实现ip代理</h2><p>使用socket，其实是将ip与端口的获取赋值进socket，然后赋值进代理类中</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SocketAddress socketAddress = <span class="keyword">new</span> InetSocketAddress(ip, port);</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> Proxy(Proxy.Type.HTTP, socketAddress);</span><br></pre></td></tr></table></figure>
-
-<p>最后使用Http的调用工具去请求地址即可</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HttpRequest.get(detailUrl + s)</span><br><span class="line">.setProxy(proxy)</span><br><span class="line">.header(<span class="string">&quot;Cookie&quot;</span>, cookie)</span><br><span class="line">.execute();</span><br></pre></td></tr></table></figure>
-
-<p>这里我使用的hutool工具类请求的</p>
-<h2 id="3、检测请求的ip是否是代理ip"><a href="#3、检测请求的ip是否是代理ip" class="headerlink" title="3、检测请求的ip是否是代理ip"></a>3、检测请求的ip是否是代理ip</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inner(value = false)</span></span><br><span class="line"><span class="meta">@ApiOperation(&quot;返回调用者ip接口&quot;)</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/get-ip&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;?&gt; getIp(HttpServletRequest request) &#123;</span><br><span class="line">    String ipAddress = request.getHeader(<span class="string">&quot;x-forwarded-for&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (ipAddress == <span class="keyword">null</span> || ipAddress.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ipAddress)) &#123;</span><br><span class="line">        ipAddress = request.getHeader(<span class="string">&quot;Proxy-Client-IP&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ipAddress == <span class="keyword">null</span> || ipAddress.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ipAddress)) &#123;</span><br><span class="line">        ipAddress = request.getHeader(<span class="string">&quot;WL-Proxy-Client-IP&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ipAddress == <span class="keyword">null</span> || ipAddress.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ipAddress)) &#123;</span><br><span class="line">        ipAddress = request.getRemoteAddr();</span><br><span class="line">        <span class="keyword">if</span> (ipAddress.equals(<span class="string">&quot;127.0.0.1&quot;</span>) || ipAddress.equals(<span class="string">&quot;0:0:0:0:0:0:0:1&quot;</span>)) &#123;</span><br><span class="line">            <span class="comment">//根据网卡取本机配置的IP</span></span><br><span class="line">            InetAddress inet = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                inet = InetAddress.getLocalHost();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            ipAddress = inet.getHostAddress();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照&#x27;,&#x27;分割</span></span><br><span class="line">    <span class="keyword">if</span> (ipAddress != <span class="keyword">null</span> &amp;&amp; ipAddress.length() &gt; <span class="number">15</span>) &#123; <span class="comment">//&quot;***.***.***.***&quot;.length() = 15</span></span><br><span class="line">        <span class="keyword">if</span> (ipAddress.indexOf(<span class="string">&quot;,&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            ipAddress = ipAddress.substring(<span class="number">0</span>, ipAddress.indexOf(<span class="string">&quot;,&quot;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> R.ok(ipAddress);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这里调用这个接口就会返回请求时的ip地址</p>
-
+                                <img class="kratos-entry-thumb-new-img">
                             
+                        </a>
+                    </div>
+                    <div class="kratos-post-inner-new">
+                        <header class="kratos-entry-header-new">
+                                
+                            <h2 class="kratos-entry-title-new"><a href="/2022/01/31/%E5%9F%BA%E4%BA%8ESocket%E4%B8%8EProxy%E4%BB%A3%E7%90%86IP-Http%E8%AF%B7%E6%B1%82/">基于Socket与Proxy代理IP Http请求</a>
+                        </header>
+                        <div class="kratos-entry-content-new">
+                            <p>
+                                
+                                    基于Socket与Proxy代理IP Http请求1、ip池首先需要弄个ip池用来代理ip使用(最稳定的方式就是花钱)，一般的代理ip网站都会提供获取ip的接口，
+例
+12345678910String s = HttpUtil.ge...
+                                
+                            </p>
                         </div>
                     </div>
-                </div>
-                
                     <footer class="kratos-post-meta-new">
                         <span class="pull-left">
-                            <a><i class="fa fa-calendar"></i></a><a>2021-11-10</a>
-                            
+                            <a>
+                                <i class="fa fa-calendar"></i>
+                                2022-01-31
+                            </a>
+                            <a>
+                                
+                                    <i class="fa fa-tags"></i>
+                                    <a class="tag-none-link" href="/tags/java/" rel="tag">java</a>
+                                
+                            </a>
                             
                                 <!-- 当前仅支持valine/waline自带的统计功能 -->
                                 
@@ -170,15 +174,11 @@
                                 
                             
                         </span>
-                        
-                        
-                            <span class="pull-right">
-                                <a class="read-more" href="/2021/11/10/%E5%9F%BA%E4%BA%8ESocket%E4%B8%8EProxy%E4%BB%A3%E7%90%86IP%20Http%E8%AF%B7%E6%B1%82/" title="留言">留言<i class="fa fa-chevron-circle-right"></i></a>
-                            </span>
-                        
-
+                        <span class="pull-right">
+                            <a class="read-more" href="/2022/01/31/%E5%9F%BA%E4%BA%8ESocket%E4%B8%8EProxy%E4%BB%A3%E7%90%86IP-Http%E8%AF%B7%E6%B1%82/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                        </span>
                     </footer>
-                
+                </div>
             </article>
         
     
@@ -687,6 +687,9 @@ CompletableFuture能够将回调放到与任务不同的线程中执行，也能
         
           
           
+            <a class="list-group-item" href="/2022/01/31/%E5%9F%BA%E4%BA%8ESocket%E4%B8%8EProxy%E4%BB%A3%E7%90%86IP-Http%E8%AF%B7%E6%B1%82/"><i class="fa  fa-book"></i> 基于Socket与Proxy代理IP Http请求</a>
+            
+          
         
           
           
@@ -713,11 +716,7 @@ CompletableFuture能够将回调放到与任务不同的线程中执行，也能
           
         
           
-          
-            <a class="list-group-item" href="/2021/07/02/Centos7-%E9%83%A8%E7%BD%B2docker/"><i class="fa  fa-book"></i> Centos7 部署docker</a>
             
-          
-        
           
             
           
