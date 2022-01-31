@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>SpringBoot 注解事务使用经验 | Mu Yao</title>
+  <title>Mu Yao</title>
   <meta name="author" content="Mu Yao" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -13,20 +13,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="SpringBoot" />
+    <meta name="keywords" content="" />
   
-  <meta name="description" content="SpringBoot 注解事务使用经验1、当try&#x2F;catch是如何回滚SpringBoot的声明式事务是需要抛出异常才可以进行捕捉，如果在代码中try&#x2F;catch则不会抛出异常，所以SpringBoot提供了一种方法来解决这个问题 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly(); 123456789@Tr">
+  <meta name="description" content="基于Socket与Proxy代理IP Http请求1、ip池首先需要弄个ip池用来代理ip使用(最稳定的方式就是花钱)，一般的代理ip网站都会提供获取ip的接口， 例 12345678910String s &#x3D; HttpUtil.get(proxyUrl);JSONObject proxyObj &#x3D; JSONObject.parseObject(s);JSONArray array &#x3D; proxy">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringBoot 注解事务使用经验">
-<meta property="og:url" content="http://example.com/2021/08/02/SpringBoot-%E6%B3%A8%E8%A7%A3%E4%BA%8B%E5%8A%A1%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C/index.html">
+<meta property="og:title" content="Mu Yao">
+<meta property="og:url" content="http://example.com/2021/11/10/%E5%9F%BA%E4%BA%8ESocket%E4%B8%8EProxy%E4%BB%A3%E7%90%86IP%20Http%E8%AF%B7%E6%B1%82/index.html">
 <meta property="og:site_name" content="Mu Yao">
-<meta property="og:description" content="SpringBoot 注解事务使用经验1、当try&#x2F;catch是如何回滚SpringBoot的声明式事务是需要抛出异常才可以进行捕捉，如果在代码中try&#x2F;catch则不会抛出异常，所以SpringBoot提供了一种方法来解决这个问题 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly(); 123456789@Tr">
+<meta property="og:description" content="基于Socket与Proxy代理IP Http请求1、ip池首先需要弄个ip池用来代理ip使用(最稳定的方式就是花钱)，一般的代理ip网站都会提供获取ip的接口， 例 12345678910String s &#x3D; HttpUtil.get(proxyUrl);JSONObject proxyObj &#x3D; JSONObject.parseObject(s);JSONArray array &#x3D; proxy">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/null">
-<meta property="article:published_time" content="2021-08-02T04:00:25.000Z">
-<meta property="article:modified_time" content="2021-08-02T05:05:34.407Z">
+<meta property="article:published_time" content="2021-11-10T10:12:57.713Z">
+<meta property="article:modified_time" content="2021-11-10T10:12:57.713Z">
 <meta property="article:author" content="Mu Yao">
-<meta property="article:tag" content="SpringBoot">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/null">
 <meta name="twitter:site" content="@null">
@@ -134,17 +133,15 @@
         <div class="kratos-hentry kratos-post-inner clearfix">
             <header class="kratos-entry-header">
                 
-                    <h1 class="kratos-entry-title text-center">SpringBoot 注解事务使用经验</h1>
-                
                 
                 <ul class="kratos-post-meta text-center">
-                    <li><i class="fa fa-calendar"></i> 2021-08-02</li>
+                    <li><i class="fa fa-calendar"></i> 2021-11-10</li>
                     <li><i class="fa fa-user"></i> 作者 Mu Yao</li>
                     <li>
                         <i class="fa fa-edit"></i> 
                         
                         
-                            486
+                            ~2.41K
                         
                         字
                     </li>
@@ -153,14 +150,25 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1627880734407"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1636539177713"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
-                <h1 id="SpringBoot-注解事务使用经验"><a href="#SpringBoot-注解事务使用经验" class="headerlink" title="SpringBoot 注解事务使用经验"></a>SpringBoot 注解事务使用经验</h1><h2 id="1、当try-catch是如何回滚"><a href="#1、当try-catch是如何回滚" class="headerlink" title="1、当try/catch是如何回滚"></a>1、当try/catch是如何回滚</h2><p>SpringBoot的声明式事务是需要抛出异常才可以进行捕捉，如果在代码中try/catch则不会抛出异常，所以SpringBoot提供了一种方法来解决这个问题 <code>TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">policyQuotation</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> Exception();</span><br><span class="line">	&#125; <span class="keyword">catch</span>(Exceprion e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                <h1 id="基于Socket与Proxy代理IP-Http请求"><a href="#基于Socket与Proxy代理IP-Http请求" class="headerlink" title="基于Socket与Proxy代理IP Http请求"></a>基于Socket与Proxy代理IP Http请求</h1><h2 id="1、ip池"><a href="#1、ip池" class="headerlink" title="1、ip池"></a>1、ip池</h2><p>首先需要弄个ip池用来代理ip使用(最稳定的方式就是花钱)，一般的代理ip网站都会提供获取ip的接口，</p>
+<p>例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String s = HttpUtil.get(proxyUrl);</span><br><span class="line">JSONObject proxyObj = JSONObject.parseObject(s);</span><br><span class="line">JSONArray array = proxyObj.getJSONArray(<span class="string">&quot;data&quot;</span>);</span><br><span class="line">String ip = <span class="string">&quot;&quot;</span>;</span><br><span class="line">Integer port = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; array.size(); i++) &#123;</span><br><span class="line">	JSONObject object = array.getJSONObject(i);</span><br><span class="line">	ip = object.getString(<span class="string">&quot;ip&quot;</span>);</span><br><span class="line">	port = object.getInteger(<span class="string">&quot;port&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>通过使用此方法也可以使用声明式事务进行异常的回滚</p>
+<p>上述为小象代理的接口调用</p>
+<h2 id="2、代码实现ip代理"><a href="#2、代码实现ip代理" class="headerlink" title="2、代码实现ip代理"></a>2、代码实现ip代理</h2><p>使用socket，其实是将ip与端口的获取赋值进socket，然后赋值进代理类中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SocketAddress socketAddress = <span class="keyword">new</span> InetSocketAddress(ip, port);</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> Proxy(Proxy.Type.HTTP, socketAddress);</span><br></pre></td></tr></table></figure>
+
+<p>最后使用Http的调用工具去请求地址即可</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HttpRequest.get(detailUrl + s)</span><br><span class="line">.setProxy(proxy)</span><br><span class="line">.header(<span class="string">&quot;Cookie&quot;</span>, cookie)</span><br><span class="line">.execute();</span><br></pre></td></tr></table></figure>
+
+<p>这里我使用的hutool工具类请求的</p>
+<h2 id="3、检测请求的ip是否是代理ip"><a href="#3、检测请求的ip是否是代理ip" class="headerlink" title="3、检测请求的ip是否是代理ip"></a>3、检测请求的ip是否是代理ip</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inner(value = false)</span></span><br><span class="line"><span class="meta">@ApiOperation(&quot;返回调用者ip接口&quot;)</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/get-ip&quot;)</span></span><br><span class="line"><span class="keyword">public</span> R&lt;?&gt; getIp(HttpServletRequest request) &#123;</span><br><span class="line">    String ipAddress = request.getHeader(<span class="string">&quot;x-forwarded-for&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (ipAddress == <span class="keyword">null</span> || ipAddress.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ipAddress)) &#123;</span><br><span class="line">        ipAddress = request.getHeader(<span class="string">&quot;Proxy-Client-IP&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ipAddress == <span class="keyword">null</span> || ipAddress.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ipAddress)) &#123;</span><br><span class="line">        ipAddress = request.getHeader(<span class="string">&quot;WL-Proxy-Client-IP&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (ipAddress == <span class="keyword">null</span> || ipAddress.length() == <span class="number">0</span> || <span class="string">&quot;unknown&quot;</span>.equalsIgnoreCase(ipAddress)) &#123;</span><br><span class="line">        ipAddress = request.getRemoteAddr();</span><br><span class="line">        <span class="keyword">if</span> (ipAddress.equals(<span class="string">&quot;127.0.0.1&quot;</span>) || ipAddress.equals(<span class="string">&quot;0:0:0:0:0:0:0:1&quot;</span>)) &#123;</span><br><span class="line">            <span class="comment">//根据网卡取本机配置的IP</span></span><br><span class="line">            InetAddress inet = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                inet = InetAddress.getLocalHost();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            ipAddress = inet.getHostAddress();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照&#x27;,&#x27;分割</span></span><br><span class="line">    <span class="keyword">if</span> (ipAddress != <span class="keyword">null</span> &amp;&amp; ipAddress.length() &gt; <span class="number">15</span>) &#123; <span class="comment">//&quot;***.***.***.***&quot;.length() = 15</span></span><br><span class="line">        <span class="keyword">if</span> (ipAddress.indexOf(<span class="string">&quot;,&quot;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            ipAddress = ipAddress.substring(<span class="number">0</span>, ipAddress.indexOf(<span class="string">&quot;,&quot;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> R.ok(ipAddress);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里调用这个接口就会返回请求时的ip地址</p>
 
             </div>
             
@@ -214,7 +222,7 @@
     <script type="text/javascript">
         $(()=>{
             new QRCode("wechat-qr", {
-                text: "http://example.com/2021/08/02/SpringBoot-%E6%B3%A8%E8%A7%A3%E4%BA%8B%E5%8A%A1%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C/",
+                text: "http://example.com/2021/11/10/%E5%9F%BA%E4%BA%8ESocket%E4%B8%8EProxy%E4%BB%A3%E7%90%86IP%20Http%E8%AF%B7%E6%B1%82/",
                 width: 150,
                 height: 150,
                 correctLevel : QRCode.CorrectLevel.H
@@ -226,9 +234,11 @@
             const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
             const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
             const twitterBase   = "https://twitter.com/intent/tweet?";
-            const hostUrl       = "http://example.com/2021/08/02/SpringBoot-%E6%B3%A8%E8%A7%A3%E4%BA%8B%E5%8A%A1%E4%BD%BF%E7%94%A8%E7%BB%8F%E9%AA%8C/";
-            const title         = "「SpringBoot 注解事务使用经验」";
-            const excerpt       = `SpringBoot 注解事务使用经验1、当try/catch是如何回滚SpringBoot的声明式事务是需要抛出异常才可以进行捕捉，如果在代码中try/catch则不会抛出异常，所以SpringBoot提供了一种方法来解决这个问题 ...`;
+            const hostUrl       = "http://example.com/2021/11/10/%E5%9F%BA%E4%BA%8ESocket%E4%B8%8EProxy%E4%BB%A3%E7%90%86IP%20Http%E8%AF%B7%E6%B1%82/";
+            const title         = "「」";
+            const excerpt       = `基于Socket与Proxy代理IP Http请求1、ip池首先需要弄个ip池用来代理ip使用(最稳定的方式就是花钱)，一般的代理ip网站都会提供获取ip的接口，
+例
+12345678910String s = HttpUtil.ge...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -247,10 +257,10 @@
                 <div class="footer-tag clearfix">
                     <div class="pull-left">
                     <i class="fa fa-tags"></i>
-                        <a class="tag-none-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a>
+                        
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-08-02</span>
+                    <span>最后编辑：2021-11-10</span>
                     </div>
                 </div>
             </footer>
@@ -259,13 +269,9 @@
             <nav class="navigation post-navigation clearfix" role="navigation">
                 
                 <div class="nav-previous clearfix">
-                    <a title=" Centos7 MySQL 开启binlog日志" href="/2021/07/05/Centos7-MySQL-开启binlog日志/">&lt; 上一篇</a>
+                    <a title=" HashSet 数组去重以及是否有重复" href="/2021/08/25/HashSet-数组去重以及是否有重复/">&lt; 上一篇</a>
                 </div>
                 
-                
-                <div class="nav-next clearfix">
-                    <a title=" HashSet 数组去重以及是否有重复" href="/2021/08/25/HashSet-数组去重以及是否有重复/">下一篇 &gt;</a>
-                </div>
                 
             </nav>
         
